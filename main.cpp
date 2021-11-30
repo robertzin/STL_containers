@@ -1,9 +1,14 @@
 #include <iostream>
 // #include "iterator.hpp"
 #include "vector.hpp"
-#include <vector>
+#include "stack.hpp"
+#include "map.hpp"
+#include "tree.hpp"
+// #include <vector>
 // #include <iterator>
 // #include <memory>
+#include <stack>
+#include <map>
 
 // 10 10 10 10 10
 
@@ -41,38 +46,50 @@
 
 
 int main(void) {
-	int myints[] = {16,2,77,29, 35, 102, 44, 87, 112};
+	// ft::stack<ft::vector<int> > st;
+	// std::stack<int, ft::vector<int> > stack;
+
+	// std::vector<int> v;
+	// std::map<int, int>::iterator it;
+
+
+	
+	
+	
+	
+	
+	// int myints[] = {16,2,77,29, 35, 102, 44, 87, 112};
 	// ft::vector<int> v1(5, 10);
-	ft::vector<int> v1(myints, myints + 4);
-	ft::vector<int> v2(myints + 4, myints + 9);
+	// ft::vector<int> v1(myints, myints + 4);
+	// ft::vector<int> v2(myints + 4, myints + 9);
 
 	// std::cout << *v1.begin() << std::endl;
 	// std::cout << *(v1.end() - 1) << std::endl;
 	// std::cout << *v2.begin() << std::endl;
 	// std::cout << *(v2.end() - 1) << std::endl;
-	std::cout << v1.size() << std::endl;
-	std::cout << v1.capacity() << std::endl;
-	std::cout << v2.size() << std::endl;
-	std::cout << v2.capacity() << std::endl;
-	v1.swap(v2);
-	ft::vector<int>::iterator it1;
-	it1 = v1.begin();
-	while (it1 != v1.end()) {
-		std::cout << *it1 << " ";
-		it1++;
-	}
+	// std::cout << v1.size() << std::endl;
+	// std::cout << v1.capacity() << std::endl;
+	// std::cout << v2.size() << std::endl;
+	// std::cout << v2.capacity() << std::endl;
+	// v1.swap(v2);
+	// ft::vector<int>::iterator it1;
+	// it1 = v1.begin();
+	// while (it1 != v1.end()) {
+	// 	std::cout << *it1 << " ";
+	// 	it1++;
+	// }
 
-	std::cout << std::endl;
-	ft::vector<int>::iterator it2;
-	it2 = v2.begin();
-	while (it2 != v2.end()) {
-		std::cout << *it2 << " ";
-		it2++;
-	}
-	std::cout << v1.size() << std::endl;
-	std::cout << v1.capacity() << std::endl;
-	std::cout << v2.size() << std::endl;
-	std::cout << v2.capacity() << std::endl;
+	// std::cout << std::endl;
+	// ft::vector<int>::iterator it2;
+	// it2 = v2.begin();
+	// while (it2 != v2.end()) {
+	// 	std::cout << *it2 << " ";
+	// 	it2++;
+	// }
+	// std::cout << v1.size() << std::endl;
+	// std::cout << v1.capacity() << std::endl;
+	// std::cout << v2.size() << std::endl;
+	// std::cout << v2.capacity() << std::endl;
 	// std::cout << std::endl;
 	// std::cout << "size: " << v1.size() << std::endl;
 	// std::cout << "capacity: " << v1.capacity() << std::endl;

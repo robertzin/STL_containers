@@ -16,13 +16,13 @@ namespace ft {
 	
 	template< typename T >
 	struct iterator_traits<T *> {
-		typedef T								value_type;
-		typedef T*								pointer;
-		typedef const T*						const_pointer;
-		typedef T&								reference;
-		typedef const T&						const_reference;
-		typedef ptrdiff_t						difference_type;
-		typedef std::random_access_iterator_tag	iterator_category;
+		typedef T									value_type;
+		typedef T*									pointer;
+		typedef const T*							const_pointer;
+		typedef T&									reference;
+		typedef const T&							const_reference;
+		typedef ptrdiff_t							difference_type;
+		typedef std::random_access_iterator_tag		iterator_category;
     };
 
 	template < class T >

@@ -1,8 +1,7 @@
 // # ifndef VECTOR_
 // # define VECTOR_
-# include <exception>
+#pragma once
 # include <memory>
-# include <algorithm>
 # include "iterator.hpp"
 # include "utils.hpp"
 
@@ -12,17 +11,18 @@ template < class T, class A = std::allocator<T> >
 class vector {
 
 	public:
-		typedef	A												allocator_type;
-		typedef typename A::value_type							value_type;
-		typedef typename A::size_type							size_type;
-		typedef typename A::difference_type						difference_type;
-		typedef typename A::pointer								pointer;
-		typedef typename A::reference							reference;
-		typedef typename A::const_reference						const_reference;
-		typedef typename ft::iterator<T*>						iterator;
-		typedef typename ft::iterator<const T*>					const_iterator;
-		typedef typename ft::reverse_iterator<iterator>			reverse_iterator;
-		typedef typename ft::reverse_iterator<const_iterator>	const_reverse_iterator;
+		typedef				A										allocator_type;
+		typedef typename 	A::value_type							value_type;
+		typedef typename 	A::size_type							size_type;
+		typedef typename 	A::difference_type						difference_type;
+		typedef typename 	A::pointer								pointer;
+		typedef typename 	A::reference							reference;
+		typedef typename 	A::const_reference						const_reference;
+		
+		typedef 			ft::iterator<T*>						iterator;
+		typedef 			ft::iterator<const T*>					const_iterator;
+		typedef 			ft::reverse_iterator<iterator>			reverse_iterator;
+		typedef 			ft::reverse_iterator<const_iterator>	const_reverse_iterator;
 
 		// Iterators:
 		iterator begin() { return iterator(_array); }
@@ -37,7 +37,8 @@ class vector {
 		const_reverse_iterator rend() const { return const_reverse_iterator(begin()); } 
 		
 		// Constructors:
-		vector(const allocator_type& alloc = allocator_type()) : _alloc(alloc), _capacity(0), _size(0), _array(NULL) {}
+		vector(const allocator_type& alloc = allocator_type()) : _alloc(alloc), _capacity(0), _size(0), _array(NULL) {
+		}
 		vector(size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type())
 			: _alloc(alloc), _capacity(n), _size(n), _array(_alloc.allocate(n)) {
 			for (size_type i = 0; i < n; i++)
@@ -80,37 +81,15 @@ class vector {
 		}
 		size_type capacity() const { return _capacity;}
 		bool empty() const { return size() == 0;}
-
 		void reserve (size_type n) {
-			if (max_size() < n)
-				throw std::length_error("vector is gonna be toooooo big :(");
-			else if (n > _capacity) {
-				T* src = _alloc.allocate(n);
-				try {
-					iterator first = begin();
-					iterator last = end();
-					pointer ptr = src;
-					pointer tmp = ptr;
-					try {
-						for ( ; first != last; ++ptr, ++first)
-							_alloc.construct(ptr, *first);
-					}
-					catch(const std::exception& e) {
-						std::cerr << e.what() << std::endl;
-						for ( ; tmp != ptr; ++tmp)
-							_alloc.destroy(tmp);
-						throw;
-					}
-				}
-				catch(const std::exception& e) {
-					std::cerr << e.what() << std::endl;
-					_alloc.deallocate(src, n);
-					throw;
-				}
+			if (n > _capacity) {
+				pointer tmp = _alloc.allocate(n);
+				for (size_type i = 0; i < _size; ++i)
+					tmp[i] = _array[i];
 				if (_array)
 					_alloc.deallocate(_array, _capacity);
-				_array = src;
 				_capacity = n;
+				_array = tmp;
 			}
 		}
 
@@ -131,6 +110,8 @@ class vector {
 		const_reference front() const { return *begin(); }
 		reference back() { return *(end() - 1); }
 		const_reference back() const { return *(end() - 1); }
+		value_type* data() { return _array; }
+		const value_type* data() const { return _array; }
 
 		// Modifiers:
 		template <class InputIterator>
@@ -177,7 +158,7 @@ class vector {
 					_size++;
 				}
 			}
-			for (size_type i = _size; i >= 0; i--) {
+			for (size_type i = _size; i >= 0; --i) {
 				if (i == idx) {
 					for ( ; n > 0; --n) {
 						_array[i] = val;
@@ -190,8 +171,10 @@ class vector {
 		template <class InputIterator>
 		void insert (iterator position, InputIterator first, typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type last) {
 			size_type range = last - first;
+			if (!validate_iterator_values(first, last, range))
+				throw std::exception();
 			size_type new_size = _size + range;
-			int last_idx = (position - begin() + range - 1);
+			int last_idx = (position - begin()) + range - 1;
 			if (range >= _capacity) {
 				reserve(_capacity + range);
 				_size = new_size;
@@ -212,6 +195,7 @@ class vector {
 				_array[i] = _array[i - range];
 			}
 		}
+
 		iterator erase (iterator pos) {
 			size_type idx = pos - begin();
 			for (size_type i = idx; i < _size; ++i) {
@@ -220,6 +204,7 @@ class vector {
 			_size--;
 			return pos;
 		}
+		
 		iterator erase (iterator first, iterator last) {
 			size_type start = first - begin();
 			size_type finish = last - begin();
@@ -238,6 +223,7 @@ class vector {
 			std::swap(_array, x._array);
 			std::swap(_alloc, x._alloc);
 		}
+		
 		void clear() {
 				for (size_type i = 0; i < _size; i++)
 					_alloc.destroy(_array + i);
@@ -252,6 +238,26 @@ class vector {
 		size_type	_capacity;
 		size_type	_size;
 		pointer		_array;
+
+		template < class InputIt >
+		typename ft::enable_if<!ft::is_integral<InputIt>::value, bool>::type
+		validate_iterator_values(InputIt first, InputIt last, size_type range) {
+			pointer reserved_buffer;
+			reserved_buffer = _alloc.allocate(range);
+			bool result = true;
+			size_type i = 0;
+
+			for ( ; first != last; ++first, ++i) {
+				try {
+					reserved_buffer[i] = *first;
+				} catch (...) {
+					result = false;
+					break;
+				}
+			}
+			_alloc.deallocate(reserved_buffer, range);
+			return result;
+		}
 	};
 
 	template < class T, class A >

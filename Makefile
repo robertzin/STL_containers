@@ -5,8 +5,11 @@ C			=	clang++
 C_FLAGS		= 	-Wall -Wextra -Werror -std=c++98
 
 HEADERS		=	vector.hpp\
+				stack.hpp\
+				map.hpp\
 				iterator.hpp\
-				utils.hpp
+				utils.hpp\
+				tree.hpp
 				
 SRCS		=	main.cpp\
 
