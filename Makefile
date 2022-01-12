@@ -2,15 +2,16 @@ NAME		=	vector
 
 C			=	clang++
 
-C_FLAGS		= 	-Wall -Wextra -Werror -std=c++98
+C_FLAGS		= 	-Wall -Wextra -Werror
 
 HEADERS		=	vector.hpp\
 				stack.hpp\
-				map.hpp\
 				iterator.hpp\
 				utils.hpp\
-				tree.hpp
-				
+				node.hpp\
+				tree.hpp\
+				map.hpp
+
 SRCS		=	main.cpp\
 
 RM			= rm -f
@@ -20,7 +21,7 @@ $(NAME):	$(SRCS) $(HEADERS)
 
 all: 		$(NAME)
 
-fclean: 	
+fclean:
 			$(RM) $(NAME)
 
 re:			fclean all
