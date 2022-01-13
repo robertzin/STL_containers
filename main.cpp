@@ -20,7 +20,10 @@ int main(void) {
 	ft::map<int, int>::reverse_iterator rite = m.rend();
 
 	std::cout << rit->first << "-> " << rit->second << std::endl;
-	std::cout << rite->first << "-> " << rite->second << std::endl;
+	
+	std::cout << m.max_size() << std::endl;
+
+	// std::cout << rite->first << "-> " << rite->second << std::endl;
 
 	// rit = m.rbegin(); rite = m.rend();
 	// while (it != ite)
