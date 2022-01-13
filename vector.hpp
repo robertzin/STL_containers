@@ -48,9 +48,8 @@ class vector {
 		vector(It first, It last, const allocator_type& alloc = allocator_type())
 			: _alloc(alloc), _capacity(0), _size(0), _array(NULL) { assign(first, last); }
 		~vector() {
-			clear();
-			if(_array)
-				_alloc.deallocate(_array, _capacity);
+			this->clear();
+			_alloc.deallocate(_array, _capacity);
 		}
 		vector& operator= (const vector& other) {
 			if (this == &other)
@@ -97,12 +96,12 @@ class vector {
 		const_reference operator[] (size_type n) const  { return *(begin() + n); }
 		reference at (size_type n) {
 			if (n < _size)
-				return *(begin() + n);;
+				return *(begin() + n);
 			throw std::out_of_range("vector reference at");
 		}
 		const_reference at (size_type n) const {
 			if (n < _size)
-				return *(begin() + n);;
+				return *(begin() + n);
 			throw std::out_of_range("vector reference at");
 		}
 		reference front() { return *begin(); }
@@ -174,7 +173,7 @@ class vector {
 			if (!validate_iterator_values(first, last, range))
 				throw std::exception();
 			size_type new_size = _size + range;
-			int last_idx = (position - begin()) + range - 1;
+			size_type last_idx = (position - begin()) + range - 1;
 			if (range >= _capacity) {
 				reserve(_capacity + range);
 				_size = new_size;
@@ -225,8 +224,8 @@ class vector {
 		}
 
 		void clear() {
-				for (size_type i = 0; i < _size; i++)
-					_alloc.destroy(_array + i);
+				for (iterator it = begin(); it != end(); it++)
+					_alloc.destroy(&(*it));
 				_size = 0;
 		}
 
