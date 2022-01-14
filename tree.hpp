@@ -31,7 +31,7 @@ namespace ft {
 			tree() : _root(NULL), _size(0) {}
 			tree(const tree &x) : _root(NULL) { *this = assign(x); }
 			~tree() {}
-
+			
 			tree& assign(tree const& other) {
 				deletetree();
 				_pair_alloc = other._pair_alloc;
@@ -45,11 +45,8 @@ namespace ft {
 
 			size_type size() const { return (_size); }
 
-			bool empty() const {
-				if (_size == 0)
-					return true;
-				return false;
-			}
+			bool empty() const { return (_size == 0); }
+
 			void deletetree() {
 				_root = _deletetree(_root);
 				_size = 0;
@@ -72,14 +69,14 @@ namespace ft {
 		}
 		iterator begin() {
 			Node *tmp = find(findMin(_root).first);
-			return (iterator(tmp));
+			return (iterator(tmp, _root));
 		}
 		const_iterator begin() const {
 			Node *tmp = find(findMin(_root).first);
-			return (iterator(tmp));
+			return (iterator(tmp, _root));
 		}
-		iterator end() { return (iterator(NULL)); }
-		const_iterator end() const { return (iterator(NULL)); }
+		iterator end() { return (iterator(NULL, _root)); }
+		const_iterator end() const { return (iterator(NULL, _root)); }
 
 		reverse_iterator rbegin() { return reverse_iterator(end()); }
 		reverse_iterator rend() { return reverse_iterator(begin()); }

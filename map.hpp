@@ -87,7 +87,7 @@ namespace ft {
 				return (_tree.find(k)->data->second);
 			}
 			key_type& at(const key_type& key) {
-				iterator it = iterator(_tree.find(key));
+				iterator it = iterator(_tree.find(key), _tree.getRoot());
 				return (it == end()) ? throw std::out_of_range("key not found") : it->second;
 			}
 			const key_type&	at(const key_type& key) const { return static_cast<const key_type>(at(key)); }
@@ -99,14 +99,14 @@ namespace ft {
 	// 		// Modifiers:
 			ft::pair<iterator, bool> insert(const value_type& x) {
 				bool sec = _tree.insert(x);
-				iterator first = iterator(_tree.find(x.first));
+				iterator first = iterator(_tree.find(x.first), _tree.getRoot());
 				ft::pair<iterator, bool> ret = ft::make_pair(first, sec);
 				return (ret);
 			}
 			iterator insert(iterator position, const value_type& x) {
 				(void)position;
 				_tree.insert(x);
-				return (iterator(_tree.find(x.first), &_tree));
+				return (iterator(_tree.find(x.first), _tree.getRoot()));
 			}
 			template <class InputIterator>
 			void insert (InputIterator first, InputIterator last) {
@@ -124,8 +124,14 @@ namespace ft {
 			size_type erase(const key_type& x) { return (_tree.remove(x)); }
 
 			void erase (iterator first, iterator last) {
-				while (first != last)
-					this->erase((*(first++)).first);
+				ft::vector<key_type> keys;
+				while (first != last) {
+					keys.push_back(first->first);
+					first++;
+				}
+				for (size_type i = 0; i < keys.size(); i++)
+					_tree.remove(keys[i]);
+				return;
 			}
 			void swap(map& x) {
 				tree	tmp_tree;
@@ -138,8 +144,8 @@ namespace ft {
 			void clear() { _tree.deletetree(); }
 
 	// 		// Operations:
-			iterator find(const key_type& x)					{ return (iterator(_tree.find(x))); }
-			const_iterator find(const key_type& x) const		{ return (iterator(_tree.find(x))); }
+			iterator find(const key_type& x)					{ return (iterator(_tree.find(x), _tree.getRoot())); }
+			const_iterator find(const key_type& x) const		{ return (iterator(_tree.find(x), _tree.getRoot())); }
 			size_type count(const key_type& x) const			{ return (_tree.contains(x)); }
 			iterator lower_bound(const key_type& x)	{
 				iterator beg = this->begin();

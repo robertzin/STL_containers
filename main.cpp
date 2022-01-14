@@ -6,7 +6,10 @@
 # include "node.hpp"
 # include "tree.hpp"
 # include "map.hpp"
+
 # include <map>
+# include <vector>
+# include <sys/time.h>
 
 bool fncomp (char lhs, char rhs) {return lhs < rhs;}
 
@@ -688,39 +691,45 @@ int main(void) {
 	std::cout << "          | success |" << std::endl;
 	std::cout << "|__________________________________________|" << std::endl;
 	std::cout << std::endl;
-	
 
-    ft::map<int, int, std::greater<int> > mp_g;
-    ft::map<int, int, std::less<int> > mp_l;
-    
-	ft::map<int, int>::iterator it_l;
-	it_l = mp_g.begin();
+	std::map<int, int> mp;
+	std::vector<int> v;
 
-	// ft::map<int, int, std::greater<int> >::iterator it_g(it_l);
+	for (int i = 0, j = 0; i < 300000 ; ++i, ++j)
+		mp.insert(std::make_pair(i, j));
+	std::map<int, int>::iterator itz = mp.begin();
+	v.push_back(itz->first);
+	mp.erase(itz);
+	v.push_back(mp.size());
+	itz = mp.begin();
+	mp.erase(++itz);
+	v.push_back(mp.size());
+	itz = mp.begin();
+	v.push_back(itz->first);
+	std::map<int, int>::iterator it4 = mp.begin();
+	for (; it4 != mp.end(); it4 = mp.begin())
+		mp.erase(it4);
+	v.push_back(mp.size());
+	std::map<int, int> mp2;
+	for (int i = 0, j = 0; i < 10 ; ++i, ++j)
+		mp2.insert(std::make_pair(i, j));
+	std::map<int, int>::iterator ittest = mp2.begin();
+	for (int i = 0; i < 2; ++i) ittest++;
+	mp2.erase(ittest);
+	ittest = mp2.begin();
+	for (int i = 0; i < 5; ++i) ittest++;
+	mp2.erase(ittest);
+	std::map<int, int>::iterator it3 = mp2.begin();
+	for (; it3 != mp2.end(); ++it3) {
+		v.push_back(it3->first);
+		v.push_back(it3->second);
+	}
+
+	std::vector<int>::iterator itv = v.begin();
+	std::vector<int>::iterator itve = v.end();
+	for (; itv != itve; itv++)
+		std::cout << *itv << " ";
 
 
-
-    // mp_g.insert(ft::make_pair(10, 10));
-    // mp2.insert(_make_pair(10, 10));
-
-    // mp_g.insert(ft::make_pair(10, 10));
-    // mp_g.insert(ft::make_pair(20, 20));
-    // mp_g.insert(ft::make_pair(30, 30));
-    // mp_g.insert(ft::make_pair(40, 40));
-    // mp_g.insert(ft::make_pair(50, 50));
-    // mp_g.insert(ft::make_pair(60, 60));
-
-	// mp_l.insert(std::make_pair(10, 10));
-    // mp_l.insert(std::make_pair(20, 20));
-    // mp_l.insert(std::make_pair(30, 30));
-    // mp_l.insert(std::make_pair(40, 40));
-    // mp_l.insert(std::make_pair(50, 50));
-    // mp_l.insert(std::make_pair(60, 60));
-
-	// it_g = mp_g.begin();
-
-    // for (int i = 11; i < 70; i += 10) {
-    //     it_g = mp_g.upper_bound(i);
-    // }
 	return 0;
 }

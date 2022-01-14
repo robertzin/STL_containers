@@ -1,4 +1,4 @@
-NAME		=	vector
+NAME		=	test
 
 C			=	clang++
 
