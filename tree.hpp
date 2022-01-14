@@ -17,14 +17,15 @@ namespace ft {
 			typedef 			Alloc											pair_alloc;
 			typedef typename	Alloc::template rebind<ft::Node< T > >::other	node_alloc;
 			typedef typename 	Alloc::size_type								size_type;
+			typedef typename 	Alloc::difference_type							difference_type;
 			typedef typename	value_type::first_type							key;
 			typedef typename	value_type::second_type							value;
 
-			typedef				ft::Node<value_type>									Node;
-			typedef				ft::map_iterator<T, Node, Compare, tree>				iterator;
-			typedef				ft::map_iterator<const T, const Node, Compare, tree>	const_iterator;
-			typedef				ft::reverse_iterator<iterator>							reverse_iterator;
-			typedef				ft::reverse_iterator<const_iterator>					const_reverse_iterator;
+			typedef				ft::Node<value_type>							Node;
+			typedef				ft::map_iterator<T, Node>						iterator;
+			typedef				ft::map_iterator<const T, const Node>			const_iterator;
+			typedef				ft::reverse_iterator<iterator>					reverse_iterator;
+			typedef				ft::reverse_iterator<const_iterator>			const_reverse_iterator;
 
 		public:
 			tree() : _root(NULL), _size(0) {}
@@ -71,14 +72,14 @@ namespace ft {
 		}
 		iterator begin() {
 			Node *tmp = find(findMin(_root).first);
-			return (iterator(tmp, this));
+			return (iterator(tmp));
 		}
 		const_iterator begin() const {
 			Node *tmp = find(findMin(_root).first);
-			return (iterator(tmp, this));
+			return (iterator(tmp));
 		}
-		iterator end() { return (iterator(NULL, this)); }
-		const_iterator end() const { return (iterator(NULL, this)); }
+		iterator end() { return (iterator(NULL)); }
+		const_iterator end() const { return (iterator(NULL)); }
 
 		reverse_iterator rbegin() { return reverse_iterator(end()); }
 		reverse_iterator rend() { return reverse_iterator(begin()); }
@@ -132,8 +133,8 @@ namespace ft {
 				return (find(_root, val));
 			return NULL;
 		}
-
-		size_type max_size() const { return _node_alloc.max_size(); }
+		size_type max_size() const { return std::min<size_type>(std::allocator_traits<node_alloc>::max_size(node_alloc()), std::numeric_limits<difference_type >::max()); }
+		// size_type max_size() const { return _node_alloc.max_size(); }
 		node_alloc get_allocator() const { return _node_alloc; }
 		Node* getRoot( void ) const { return _root; }
 		Node* findm(Node* node) {
@@ -142,14 +143,14 @@ namespace ft {
 				current = current->left;
 			return (current);
 		}
-		Node* findM(Node* node) {
-			while (node && node->right != NULL)
-				node = node->right;
-			return (node);
-		}
 		Node* findm(Node* node) const {
 			while (node && node->left != NULL)
 				node = node->left;
+			return (node);
+		}
+		Node* findM(Node* node) {
+			while (node && node->right != NULL)
+				node = node->right;
 			return (node);
 		}
 		Node* findM(Node* node) const {

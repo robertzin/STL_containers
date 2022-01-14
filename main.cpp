@@ -1,13 +1,12 @@
-#include <iostream>
-#include "iterator.hpp"
-#include "utils.hpp"
-#include "vector.hpp"
-#include "stack.hpp"
-#include "node.hpp"
-#include "tree.hpp"
-#include "map.hpp"
-
-#include <map>
+# include <iostream>
+# include "iterator.hpp"
+# include "utils.hpp"
+# include "vector.hpp"
+# include "stack.hpp"
+# include "node.hpp"
+# include "tree.hpp"
+# include "map.hpp"
+# include <map>
 
 bool fncomp (char lhs, char rhs) {return lhs < rhs;}
 
@@ -607,8 +606,8 @@ int main(void) {
 	
 	std::cout << "| find:                ";
 
-	std::map<char,int> map_18;
-	std::map<char,int>::iterator map_18_it;
+	ft::map<char,int> map_18;
+	ft::map<char,int>::iterator map_18_it;
 
 	map_18['a']=50;
 	map_18['b']=100;
@@ -626,7 +625,7 @@ int main(void) {
 	
 	std::cout << "| count:               ";
 
-	std::map<char,int> map_19;
+	ft::map<char,int> map_19;
 
 	map_19 ['a'] = 101;
 	map_19 ['c'] = 202;
@@ -691,5 +690,37 @@ int main(void) {
 	std::cout << std::endl;
 	
 
+    ft::map<int, int, std::greater<int> > mp_g;
+    ft::map<int, int, std::less<int> > mp_l;
+    
+	ft::map<int, int>::iterator it_l;
+	it_l = mp_g.begin();
+
+	// ft::map<int, int, std::greater<int> >::iterator it_g(it_l);
+
+
+
+    // mp_g.insert(ft::make_pair(10, 10));
+    // mp2.insert(_make_pair(10, 10));
+
+    // mp_g.insert(ft::make_pair(10, 10));
+    // mp_g.insert(ft::make_pair(20, 20));
+    // mp_g.insert(ft::make_pair(30, 30));
+    // mp_g.insert(ft::make_pair(40, 40));
+    // mp_g.insert(ft::make_pair(50, 50));
+    // mp_g.insert(ft::make_pair(60, 60));
+
+	// mp_l.insert(std::make_pair(10, 10));
+    // mp_l.insert(std::make_pair(20, 20));
+    // mp_l.insert(std::make_pair(30, 30));
+    // mp_l.insert(std::make_pair(40, 40));
+    // mp_l.insert(std::make_pair(50, 50));
+    // mp_l.insert(std::make_pair(60, 60));
+
+	// it_g = mp_g.begin();
+
+    // for (int i = 11; i < 70; i += 10) {
+    //     it_g = mp_g.upper_bound(i);
+    // }
 	return 0;
 }

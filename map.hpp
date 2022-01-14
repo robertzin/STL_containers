@@ -86,6 +86,11 @@ namespace ft {
 					return (insert(ft::make_pair(k, mapped_type())).first)->second;
 				return (_tree.find(k)->data->second);
 			}
+			key_type& at(const key_type& key) {
+				iterator it = iterator(_tree.find(key));
+				return (it == end()) ? throw std::out_of_range("key not found") : it->second;
+			}
+			const key_type&	at(const key_type& key) const { return static_cast<const key_type>(at(key)); }
 
 	// 		// Observers:
 			key_compare key_comp() const { return (_cmp); }
@@ -94,7 +99,7 @@ namespace ft {
 	// 		// Modifiers:
 			ft::pair<iterator, bool> insert(const value_type& x) {
 				bool sec = _tree.insert(x);
-				iterator first = iterator(_tree.find(x.first), &_tree);
+				iterator first = iterator(_tree.find(x.first));
 				ft::pair<iterator, bool> ret = ft::make_pair(first, sec);
 				return (ret);
 			}
@@ -133,8 +138,8 @@ namespace ft {
 			void clear() { _tree.deletetree(); }
 
 	// 		// Operations:
-			iterator find(const key_type& x)					{ return (iterator(_tree.find(x),&_tree)); }
-			const_iterator find(const key_type& x) const		{ return (iterator(_tree.find(x), &_tree)); }
+			iterator find(const key_type& x)					{ return (iterator(_tree.find(x))); }
+			const_iterator find(const key_type& x) const		{ return (iterator(_tree.find(x))); }
 			size_type count(const key_type& x) const			{ return (_tree.contains(x)); }
 			iterator lower_bound(const key_type& x)	{
 				iterator beg = this->begin();
