@@ -35,8 +35,6 @@ namespace ft {
 	template <> struct is_integral<unsigned int>		: true_type {};
 	template <> struct is_integral<long>				: true_type {};
 	template <> struct is_integral<unsigned long>		: true_type {};
-	template <> struct is_integral<long long>			: true_type {};
-	template <> struct is_integral<unsigned long long>	: true_type {};
 
 	template < class It1, class It2 >
 	bool lexicographical_compare (It1 first1, It1 last1, It2 first2, It2 last2) {

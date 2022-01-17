@@ -43,6 +43,12 @@ namespace ft {
 				return *this;
 			}
 
+			void copy_assign_alloc(const tree& t) {
+			if (_node_alloc != t._node_alloc)
+				deletetree();
+			_node_alloc = t._node_alloc;
+			}
+
 			size_type size() const { return (_size); }
 
 			bool empty() const { return (_size == 0); }
@@ -183,9 +189,9 @@ namespace ft {
 			bool cmp1 = _comp(k, node->data->first); // k < first
 			if (!cmp1 && !cmp)
 				return true;
-			if (!cmp) //first >= k, спускаемся влево
+			if (!cmp)
 				return (contains(node->left, k));
-			if (cmp) //first < k, спускаемся вправо
+			if (cmp)
 				return (contains(node->right, k));
 			return true;
 		}

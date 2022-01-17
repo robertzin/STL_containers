@@ -1,8 +1,8 @@
-NAME		=	test
+NAME		=	containers
 
 C			=	clang++
 
-C_FLAGS		= 	-Wall -Wextra -Werror
+C_FLAGS		= 	-Wall -Wextra -Werror -std=c++98 -fsanitize=address
 
 HEADERS		=	vector.hpp\
 				stack.hpp\

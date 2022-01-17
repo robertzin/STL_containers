@@ -56,12 +56,14 @@ namespace ft {
 			}
 			map (const map& x) : _tree(x._tree), _alloc(x._alloc), _cmp(x._cmp) {}
 			~map() {}
-			map& operator= (const map& x)
-			{
-				_alloc = x._alloc;
-				_cmp = x._cmp;
-				_tree = _tree.assign(x._tree);
-				return (*this);
+			map& operator= (const map& m) {
+				if (this != &m) {
+					this->clear();
+					_cmp = m._cmp;
+					_tree.copy_assign_alloc(m._tree);
+					insert(m.begin(), m.end());
+				}
+				return *this;
 			}
 
 			// Iterators:

@@ -1,15 +1,15 @@
-# include <iostream>
-# include "iterator.hpp"
-# include "utils.hpp"
-# include "vector.hpp"
-# include "stack.hpp"
-# include "node.hpp"
-# include "tree.hpp"
-# include "map.hpp"
+	# include <map>
+	# include <vector>
+	# include <sys/time.h>
+	# include <iostream>
 
-# include <map>
-# include <vector>
-# include <sys/time.h>
+	# include "iterator.hpp"
+	# include "utils.hpp"
+	# include "vector.hpp"
+	# include "stack.hpp"
+	# include "node.hpp"
+	# include "tree.hpp"
+	# include "map.hpp"
 
 bool fncomp (char lhs, char rhs) {return lhs < rhs;}
 
@@ -29,7 +29,7 @@ int main(void) {
 	std::cout << "| constructors:        ";
 
 	ft::vector<int> first;
-	ft::vector<int> second (4,100);
+	ft::vector<int> second (100,100);
 	ft::vector<int> third (second.begin(),second.end());
 	ft::vector<int> fourth (third);
 
@@ -37,73 +37,83 @@ int main(void) {
 	ft::vector<int> fifth (myints, myints + sizeof(myints) / sizeof(int) );
 	std::cout << "          | success |" << std::endl;
 	
-	std::cout << "| begin:              ";
-	for (int i = 1; i <= 5; i++) first.push_back(i);
+	std::cout << "| begin:                         ";
+	for (int i = 1; i <= 5000; i++) first.push_back(i);
 	ft::vector<int>::iterator it = first.begin();
-	for ( ; it != first.end(); ++it)
-		std::cout << ' ' << *it;
-	std::cout << " ";
+	for ( ; it != first.end(); ++it) {}
+		// std::cout << ' ' << *it;
+	// std::cout << " ";
 	std::cout << "| success |" << std::endl;
 	
-	std::cout << "| end:                ";
+	std::cout << "| end:                           ";
 	it = first.begin();
-	for ( ; it != first.end(); ++it)
-		std::cout << ' ' << *it;
-	std::cout << " ";
+	for ( ; it != first.end(); ++it) {}
+		// std::cout << ' ' << *it;
+	// std::cout << " ";
 	std::cout << "| success |" << std::endl;
 	
-	std::cout << "| rbegin:             ";
+	std::cout << "| rbegin:                       ";
 	
 	int i = 1;
 	ft::vector<int>::reverse_iterator rit = first.rbegin();
 	for (; rit!= first.rend(); ++rit) {
 		*rit = i;
-		std::cout << ' ' << *rit;
+		// std::cout << ' ' << *rit;
 	}
 	std::cout << " ";
 	std::cout << "| success |" << std::endl;
 
-	std::cout << "| rend:               ";
+	std::cout << "| rend:                         ";
 	
 	int ie = 5;
 	ft::vector<int>::reverse_iterator rite = first.rbegin();
 	for (; rite!= first.rend(); ++rite) {
 		*rite = ie;
-		std::cout << ' ' << *rite;
+		// std::cout << ' ' << *rite;
 	}
 	std::cout << " ";
 	std::cout << "| success |" << std::endl;
 	
-	std::cout << "| size:                        ";
-	
-	std::cout << first.size() << " ";
-	std::cout << "| success |" << std::endl;
+	std::cout << "| size:                          ";
+	if (first.size() == 5000)
+		std::cout << "| success |" << std::endl;
+	else
+		std::cout << "| failure |" << std::endl;
 	
 	std::cout << "| max_size:  ";
 	
 	std::cout << first.max_size() << " ";
 	std::cout << "| success |" << std::endl;
 
-	std::cout << "| resize:                     ";
-	first.resize(20);
-	std::cout << first.size() << " ";
-	std::cout << "| success |" << std::endl;
+	std::cout << "| resize:                        ";
+	first.resize(10000);
+	if (first.size() == 10000)
+		std::cout << "| success |" << std::endl;
+	else
+		std::cout << "| failure |" << std::endl;
 
-	std::cout << "| capacity:                   ";
-	first.push_back(1);
-	std::cout << first.capacity() << " ";
-	std::cout << "| success |" << std::endl;
+	std::cout << "| capacity:                      ";
+	for (int l = 0; l < 100; l++)
+		first.push_back(l);
+	
+	int cap = first.capacity();
+	(void)cap;
+		std::cout << "| success |" << std::endl;
 
-	std::cout << "| empty:            ";
-	std::cout << std::boolalpha << first.empty() << " / ";
+	std::cout << "| empty:                         ";
+	bool v_before = first.empty();
 	first.clear();
-	std::cout << std::boolalpha << first.empty() << " ";
-	std::cout << "| success |" << std::endl;
+	bool v_after = first.empty();
+	if (!v_before && v_after)
+		std::cout << "| success |" << std::endl;
+	else
+		std::cout << "| failure |" << std::endl;
 
-	std::cout << "| reserve:              ";
-	std::cout << first.capacity() << " / ";
+
+	std::cout << "| reserve:                       ";
+	// std::cout << first.capacity() << " / ";
 	first.reserve(100);
-	std::cout << first.capacity() << " ";
+	// std::cout << first.capacity() << " ";
 	std::cout << "| success |" << std::endl;
 
 	std::cout << "| operator[]:         ";
@@ -691,45 +701,6 @@ int main(void) {
 	std::cout << "          | success |" << std::endl;
 	std::cout << "|__________________________________________|" << std::endl;
 	std::cout << std::endl;
-
-	std::map<int, int> mp;
-	std::vector<int> v;
-
-	for (int i = 0, j = 0; i < 300000 ; ++i, ++j)
-		mp.insert(std::make_pair(i, j));
-	std::map<int, int>::iterator itz = mp.begin();
-	v.push_back(itz->first);
-	mp.erase(itz);
-	v.push_back(mp.size());
-	itz = mp.begin();
-	mp.erase(++itz);
-	v.push_back(mp.size());
-	itz = mp.begin();
-	v.push_back(itz->first);
-	std::map<int, int>::iterator it4 = mp.begin();
-	for (; it4 != mp.end(); it4 = mp.begin())
-		mp.erase(it4);
-	v.push_back(mp.size());
-	std::map<int, int> mp2;
-	for (int i = 0, j = 0; i < 10 ; ++i, ++j)
-		mp2.insert(std::make_pair(i, j));
-	std::map<int, int>::iterator ittest = mp2.begin();
-	for (int i = 0; i < 2; ++i) ittest++;
-	mp2.erase(ittest);
-	ittest = mp2.begin();
-	for (int i = 0; i < 5; ++i) ittest++;
-	mp2.erase(ittest);
-	std::map<int, int>::iterator it3 = mp2.begin();
-	for (; it3 != mp2.end(); ++it3) {
-		v.push_back(it3->first);
-		v.push_back(it3->second);
-	}
-
-	std::vector<int>::iterator itv = v.begin();
-	std::vector<int>::iterator itve = v.end();
-	for (; itv != itve; itv++)
-		std::cout << *itv << " ";
-
 
 	return 0;
 }

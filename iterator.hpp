@@ -42,7 +42,7 @@ namespace ft {
 			rtn++;
 		}
 		return (rtn);
-	};
+	}
 
 	template< class Category, class T, class Distance = std::ptrdiff_t,
 		class Pointer = T*, class Reference = T& >
@@ -96,14 +96,25 @@ template <class T>
 			random_access_iterator operator++(int)									{ random_access_iterator tmp(*this); _value++; return tmp; }
 			random_access_iterator operator--(int)									{ random_access_iterator tmp(*this); _value--; return tmp; }
 
-			random_access_iterator operator+(difference_type n) const 				{ return random_access_iterator(_value + n); }
-			random_access_iterator operator-(difference_type n) const 				{ return random_access_iterator(_value - n); }
-			difference_type operator+(const random_access_iterator& other) const	{ return _value + other._value; }
-			difference_type operator-(const random_access_iterator& other) const	{ return _value - other._value; }
+			random_access_iterator operator+(difference_type n) const 							{ return random_access_iterator(_value + n); }
+			random_access_iterator operator-(difference_type n) const 							{ return random_access_iterator(_value - n); }
+            friend random_access_iterator operator+(int nb, const random_access_iterator& it)	{ random_access_iterator newIt(it); return (newIt += nb); }
+            friend random_access_iterator operator-(int nb, const random_access_iterator& it)	{ random_access_iterator newIt(it); return (newIt -= nb); }
+			difference_type operator+(const random_access_iterator& other) const				{ return _value + other._value; }
+			difference_type operator-(const random_access_iterator& other) const				{ return _value - other._value; }
 
-			reference operator[](difference_type n) const							{ return *this->_value[n]; }
+
+            reference operator[](int nb) const {
+                value_type* tmp(this->_value);
+
+                movePtr(tmp, nb, 1);
+                return (*tmp);
+            }
+
+			// reference operator[](difference_type n) const							{ return *this->_value[n]; }
 			reference operator*()													{ return *_value; }
 			pointer operator->()													{ return &(*_value); }
+
 
 			bool operator==(const random_access_iterator other) const				{ return this->_value == other._value; }
 			bool operator!=(const random_access_iterator other) const				{ return this->_value != other._value; }
@@ -114,6 +125,18 @@ template <class T>
 
 		protected :
 			pointer _value;
+
+		private:
+			void movePtr(pointer& val, long nb, bool sign) const {
+				int mov;
+
+				if (sign == 1) { mov = nb > 0 ? mov = 1: mov = -1; }
+				else { mov = nb > 0 ? mov = -1: mov = 1; }
+
+				if (nb < 0) { nb *= -1; }
+				for (; nb > 0; --nb)
+					val += mov;
+			}
 	};
 
 	template < class T >
