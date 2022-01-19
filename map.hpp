@@ -156,7 +156,7 @@ namespace ft {
 					if (!_cmp(beg->first, x)) { break; }
 					beg++;
 				}
-				return (beg);
+				return beg;
 			}
 			const_iterator lower_bound(const key_type& x) const	{
 				const_iterator beg = this->begin();
@@ -165,7 +165,7 @@ namespace ft {
 					if (!_cmp(beg->first, x)) { break; }
 					beg++;
 				}
-				return (beg);
+				return beg;
 			}
 			iterator upper_bound(const key_type& x) {
 				iterator beg = this->begin();
@@ -174,7 +174,7 @@ namespace ft {
 					if (_cmp(x, beg->first)) { break; }
 					beg++;
 				}
-				return (beg);
+				return beg;
 			}
 			const_iterator upper_bound(const key_type& x) const	{
 				const_iterator beg = this->begin();
@@ -183,7 +183,7 @@ namespace ft {
 					if (_cmp(x, beg->first)) { break; }
 					beg++;
 				}
-				return (beg);
+				return beg;
 			}
 
 			ft::pair<iterator,iterator> equal_range(const key_type& x) {

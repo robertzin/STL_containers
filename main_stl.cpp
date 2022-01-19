@@ -1,4 +1,4 @@
-// clang++ -Wall -Wextra -Werror -std=c++98 -pedantic main.cpp
+// clang++ -Wall -Wextra -Werror -std=c++98 -pedantic main_stl.cpp
 
 # include <sys/time.h>
 # include <iostream>
@@ -7,15 +7,7 @@
 # include <map>
 # include <vector>
 # include <stack>
-# include <list>
-
-# include "iterator.hpp"
-# include "utils.hpp"
-# include "vector.hpp"
-# include "stack.hpp"
-# include "node.hpp"
-# include "tree.hpp"
-# include "map.hpp"
+# include <iterator>
 
 bool fncomp (char lhs, char rhs) {return lhs < rhs;}
 
@@ -46,18 +38,18 @@ int main(void) {
 
 	std::cout << "| constructors:        ";
 
-	ft::vector<int> first;
-	ft::vector<int> second (1000,100);
-	ft::vector<int> third (second.begin(),second.end());
-	ft::vector<int> fourth (third);
+	std::vector<int> first;
+	std::vector<int> second (1000,100);
+	std::vector<int> third (second.begin(),second.end());
+	std::vector<int> fourth (third);
 
 	int myints[] = {16,2,77,29};
-	ft::vector<int> fifth (myints, myints + sizeof(myints) / sizeof(int) );
+	std::vector<int> fifth (myints, myints + sizeof(myints) / sizeof(int) );
 	std::cout << "          | success |" << std::endl;
 
 	std::cout << "| begin:                         ";
 	for (int i = 1; i <= 50000; i++) first.push_back(i);
-	ft::vector<int>::iterator it = first.begin();
+	std::vector<int>::iterator it = first.begin();
 	for ( ; it != first.end(); ++it) {}
 		// std::cout << ' ' << *it;
 	// std::cout << " ";
@@ -73,7 +65,7 @@ int main(void) {
 	std::cout << "| rbegin:                       ";
 
 	int i = 1;
-	ft::vector<int>::reverse_iterator rit = first.rbegin();
+	std::vector<int>::reverse_iterator rit = first.rbegin();
 	for (; rit!= first.rend(); ++rit) {
 		*rit = i;
 		// std::cout << ' ' << *rit;
@@ -84,7 +76,7 @@ int main(void) {
 	std::cout << "| rend:                         ";
 
 	int ie = 5;
-	ft::vector<int>::reverse_iterator rite = first.rbegin();
+	std::vector<int>::reverse_iterator rite = first.rbegin();
 	for (; rite!= first.rend(); ++rite) {
 		*rite = ie;
 		// std::cout << ' ' << *rite;
@@ -202,7 +194,7 @@ int main(void) {
 		std::cout << "| failure |" << std::endl;
 
 	std::cout << "| insert:                        ";
-	ft::vector<int> sixth (3,100);
+	std::vector<int> sixth (3,100);
 
 	it = sixth.begin();
 	it = sixth.insert (it, 200);
@@ -210,7 +202,7 @@ int main(void) {
 
 	it = sixth.begin();
 
-	ft::vector<int> anothervector (2,400);
+	std::vector<int> anothervector (2,400);
 	sixth.insert (it + 2, anothervector.begin(), anothervector.end());
 
 	int myarray [] = { 501, 502, 503 };
@@ -228,8 +220,8 @@ int main(void) {
 	std::cout << "| success |" << std::endl;
 
 	std::cout << "| swap:                          ";
-	ft::vector<int> foo (3000,100);
-	ft::vector<int> bar (5000,200);
+	std::vector<int> foo (3000,100);
+	std::vector<int> bar (5000,200);
 	foo.swap(bar);
 	if (foo[0] == 200 && bar[0] == 100)
 		std::cout << "| success |" << std::endl;
@@ -245,7 +237,7 @@ int main(void) {
 
 	std::cout << "| get_allocator:                 ";
 
-	ft::vector<int> zz;
+	std::vector<int> zz;
 	int *p;
 	unsigned int iz;
 
@@ -260,8 +252,8 @@ int main(void) {
 
 	std::cout << "| relational operators:          ";
 
-	ft::vector<int> fooz (3000,100);
-	ft::vector<int> barz (2000,200);
+	std::vector<int> fooz (3000,100);
+	std::vector<int> barz (2000,200);
 
 	bool q = fooz == barz;
 	bool w = fooz != barz;
@@ -284,11 +276,11 @@ int main(void) {
 	std::cout << " __________________________________________" << std::endl;
 
 	std::cout << "| constructors:                  ";
-	ft::vector<int> mv (2,200);
+	std::vector<int> mv (2,200);
 
-	ft::stack<int> st_first;
-	ft::stack<int,ft::vector<int> > st_second;
-	ft::stack<int,ft::vector<int> > st_third (mv);
+	std::stack<int> st_first;
+	std::stack<int,std::vector<int> > st_second;
+	std::stack<int,std::vector<int> > st_third(mv);
 	std::cout << "| success |" << std::endl;
 
 	std::cout << "| empty:                         ";
@@ -331,11 +323,11 @@ int main(void) {
 
 	std::cout << "| relational operators:          ";
 
-	ft::vector<int> st_foov (3000,100);
-	ft::vector<int> st_barv (2000,200);
+	std::deque<int> st_foov (3000,100);
+	std::deque<int> st_barv (2000,100);
 
-	ft::stack<int> st_foos(st_foov);
-	ft::stack<int> st_bars(st_barv);
+	std::stack<int> st_foos(st_foov);
+	std::stack<int> st_bars(st_barv);
 
 	bool sq = st_foos == st_bars;
 	bool sw = st_foos != st_bars;
@@ -359,29 +351,29 @@ int main(void) {
 
 
 
-	ft::map<int,int> map_1;
+	std::map<int,int> map_1;
 	for (int y = 0; y < 10000; y++)
 		map_1[y] = y * 5;
 
-	ft::map<int,int> map_2 (map_1.begin(), map_1.end());
-	ft::map<int,int> map_3 (map_2);
-	ft::map<int,int, classcomp> map_4;
+	std::map<int,int> map_2 (map_1.begin(), map_1.end());
+	std::map<int,int> map_3 (map_2);
+	std::map<int,int, classcomp> map_4;
 
 	bool(*fn_pt)(char,char) = fncomp;
-	ft::map<char,int,bool(*)(char,char)> map_5 (fn_pt);
+	std::map<char,int,bool(*)(char,char)> map_5 (fn_pt);
 
 	std::cout << "          | success |" << std::endl;
 
 	std::cout << "| operator=:           ";
 
-	ft::map<int,int> map_6;
-	ft::map<int,int> map_7;
+	std::map<int,int> map_6;
+	std::map<int,int> map_7;
 
 	for (int y = 0; y < 10000; y++)
 		map_6[y] = y * 2;
 
 	map_7 = map_6;
-	map_6 = ft::map<int,int>();
+	map_6 = std::map<int,int>();
 
 	if (map_6.size() == 0 && map_7.size() == 10000)
 		std::cout << "          | success |" << std::endl;
@@ -389,13 +381,13 @@ int main(void) {
 		std::cout << "          | failure |" << std::endl;
 
 	std::cout << "| begin:               ";
-	ft::map<char,int> map_8;
+	std::map<char,int> map_8;
 
 	map_8['b'] = 100;
 	map_8['a'] = 200;
 	map_8['c'] = 300;
 
-	ft::map<char, int>::iterator map_8_i = map_8.begin();
+	std::map<char, int>::iterator map_8_i = map_8.begin();
 	char map_8_a1 = map_8_i->first;
 	map_8_i++;
 	char map_8_a2 = map_8_i->first;
@@ -408,13 +400,13 @@ int main(void) {
 		std::cout << "          | failure |" << std::endl;
 
 	std::cout << "| end:                 ";
-	ft::map<char,int> map_9;
+	std::map<char,int> map_9;
 
 	map_9['b'] = 100;
 	map_9['a'] = 200;
 	map_9['c'] = 300;
 
-	ft::map<char, int>::iterator map_9_i = map_9.end();
+	std::map<char, int>::iterator map_9_i = map_9.end();
 	map_9_i--;
 	char map_9_a1 = map_9_i->first;
 	map_9_i--;
@@ -428,13 +420,13 @@ int main(void) {
 		std::cout << "          | failure |" << std::endl;
 
 	std::cout << "| rbegin:              ";
-	ft::map<char,int> map_10;
+	std::map<char,int> map_10;
 
 	map_10['b'] = 100;
 	map_10['a'] = 200;
 	map_10['c'] = 300;
 
-	ft::map<char, int>::reverse_iterator map_10_i = map_10.rbegin();
+	std::map<char, int>::reverse_iterator map_10_i = map_10.rbegin();
 	char map_10_a1 = map_10_i->first;
 	map_10_i++;
 	char map_10_a2 = map_10_i->first;
@@ -447,13 +439,13 @@ int main(void) {
 		std::cout << "          | failure |" << std::endl;
 
 	std::cout << "| rend:                ";
-	ft::map<char,int> map_11;
+	std::map<char,int> map_11;
 
 	map_11['b'] = 100;
 	map_11['a'] = 200;
 	map_11['c'] = 300;
 
-	ft::map<char, int>::reverse_iterator map_11_i = map_11.rend();
+	std::map<char, int>::reverse_iterator map_11_i = map_11.rend();
 	map_11_i--;
 	char map_11_a1 = map_11_i->first;
 	map_11_i--;
@@ -510,9 +502,9 @@ int main(void) {
 	for (char i = 'a'; i < 'z'; i++) {
 		map_10[i] = 10 + int(i);
 	}
-	ft::map<char, int>::iterator map_it = map_10.begin();
-	ft::map<char, int>::iterator map_ite = map_10.end();
-	// for (; map_it != map_ite; map_it++)
+	std::map<char, int>::iterator map_it = map_10.begin();
+	std::map<char, int>::iterator map_ite = map_10.end();
+	for (; map_it != map_ite; map_it++) {}
 		// std::cout << map_it-> first << " -> " << map_it->second << std::endl;
 
 	if (map_10.find('a')->second == 107 && map_10.find('n')->second == 120 && map_10.find('x')->second == 130)
@@ -522,24 +514,24 @@ int main(void) {
 
 	std::cout << "| insert:              ";
 
-	ft::map<char,int> map_12;
-	map_12.insert ( ft::pair<char,int>('a',100) );
-	map_12.insert ( ft::pair<char,int>('z',200) );
+	std::map<char,int> map_12;
+	map_12.insert ( std::pair<char,int>('a',100) );
+	map_12.insert ( std::pair<char,int>('z',200) );
 
-	ft::pair<ft::map<char,int>::iterator,bool> map_12_p;
-	map_12_p = map_12.insert ( ft::pair<char,int>('z',500) );
+	std::pair<std::map<char,int>::iterator,bool> map_12_p;
+	map_12_p = map_12.insert ( std::pair<char,int>('z',500) );
 
 	// if (map_12_p.second == false) {
 	// 	std::cout << "element 'z' already existed";
 	// 	std::cout << " with a value of " << map_12_p.first->second << '\n';
 	// }
 
-	ft::map<char,int>::iterator map_12_it;
+	std::map<char,int>::iterator map_12_it;
 	map_12_it = map_12.begin();
-	map_12.insert (map_12_it, ft::pair<char,int>('b',300));
-	map_12.insert (map_12_it, ft::pair<char,int>('c',400));
+	map_12.insert (map_12_it, std::pair<char,int>('b',300));
+	map_12.insert (map_12_it, std::pair<char,int>('c',400));
 
-	ft::map<char,int> anothermap_12;
+	std::map<char,int> anothermap_12;
 	anothermap_12.insert(map_12.begin(),map_12.find('c'));
 
 //   // showing contents:
@@ -552,8 +544,8 @@ int main(void) {
 
 	std::cout << "| erase:               ";
 
-	ft::map<char,int> map_13;
-	ft::map<char,int>::iterator map_13_it;
+	std::map<char,int> map_13;
+	std::map<char,int>::iterator map_13_it;
 
 	// insert some values:
 	map_13['a']=10;
@@ -574,7 +566,7 @@ int main(void) {
 
 	std::cout << "| swap:                ";
 
-	ft::map<char,int> map_14, map_15;
+	std::map<char,int> map_14, map_15;
 
 	map_14['x']=100;
 	map_14['y']=200;
@@ -592,15 +584,15 @@ int main(void) {
 
 	std::cout << "| key_comp:            ";
 
-	ft::map<char,int> map_16;
-	ft::map<char,int>::key_compare mycomp = map_16.key_comp();
+	std::map<char,int> map_16;
+	std::map<char,int>::key_compare mycomp = map_16.key_comp();
 
 	map_16['a'] = 100;
 	map_16['b'] = 200;
 	map_16['c'] = 300;
 
 	char highest = map_16.rbegin()->first;
-	ft::map<char,int>::iterator map_16_it = map_16.begin();
+	std::map<char,int>::iterator map_16_it = map_16.begin();
 	do {
 		// std::cout << map_16_it->first << " => " << map_16_it->second << '\n';
 	} while ( mycomp((*map_16_it++).first, highest) );
@@ -608,13 +600,13 @@ int main(void) {
 
 	std::cout << "| value_comp:          ";
 
-	ft::map<char,int> map_17;
+	std::map<char,int> map_17;
 	map_17['x'] = 1001;
 	map_17['y'] = 2002;
 	map_17['z'] = 3003;
 
-	ft::pair<char,int> map_17_highest = *map_17.rbegin();
-	ft::map<char,int>::iterator map_17_it = map_17.begin();
+	std::pair<char,int> map_17_highest = *map_17.rbegin();
+	std::map<char,int>::iterator map_17_it = map_17.begin();
 
 	do {
 		// std::cout << map_17_it->first << " => " << map_17_it->second << '\n';
@@ -623,8 +615,8 @@ int main(void) {
 
 	std::cout << "| find:                ";
 
-	ft::map<char,int> map_18;
-	ft::map<char,int>::iterator map_18_it;
+	std::map<char,int> map_18;
+	std::map<char,int>::iterator map_18_it;
 
 	map_18['a']=50;
 	map_18['b']=100;
@@ -642,7 +634,7 @@ int main(void) {
 
 	std::cout << "| count:               ";
 
-	ft::map<char,int> map_19;
+	std::map<char,int> map_19;
 
 	map_19 ['a'] = 101;
 	map_19 ['c'] = 202;
@@ -653,8 +645,8 @@ int main(void) {
 	else
 		std::cout << "          | failure |" << std::endl;
 
-	ft::map<char,int> map_20;
-	ft::map<char,int>::iterator map_20_itlow, map_20_itup;
+	std::map<char,int> map_20;
+	std::map<char,int>::iterator map_20_itlow, map_20_itup;
 
 	map_20['a'] = 20;
 	map_20['b'] = 40;
@@ -676,13 +668,13 @@ int main(void) {
 	std::cout << "| equal_range:         ";
 
 
-	ft::map<char,int> map_21;
+	std::map<char,int> map_21;
 
 	map_21['a'] = 10;
 	map_21['b'] = 20;
 	map_21['c'] = 30;
 
-	ft::pair<ft::map<char,int>::iterator,ft::map<char,int>::iterator> ret;
+	std::pair<std::map<char,int>::iterator,std::map<char,int>::iterator> ret;
 	ret = map_21.equal_range('b');
 
 	if (ret.first->first == 'b' && ret.first->second == 20
@@ -695,11 +687,11 @@ int main(void) {
 	std::cout << "| equal_range:         ";
 
 	int p22size;
-	ft::map<char,int> map_22;
-	ft::pair<const char,int>* p22;
+	std::map<char,int> map_22;
+	std::pair<const char,int>* p22;
 
 	p22 = map_22.get_allocator().allocate(5);
-	p22size = sizeof(ft::map<char,int>::value_type) * 5;
+	p22size = sizeof(std::map<char,int>::value_type) * 5;
 	map_22.get_allocator().deallocate(p22, 5);
 
 	std::cout << "          | success |" << std::endl;
@@ -707,7 +699,6 @@ int main(void) {
 	std::cout << std::endl;
 	end = get_time();
 	diff = end - start;
-
 	std::cout << " ******************************************" << std::endl;
 	std::cout << " *         AVG TIME:      " << diff << "              *" << std::endl;
 	std::cout << " ******************************************" << std::endl;

@@ -79,7 +79,18 @@ class vector {
 		}
 		size_type capacity() const { return _capacity;}
 		bool empty() const { return size() == 0;}
+
 		void reserve (size_type n) {
+			// if (n <= _capacity)
+			// 	return;
+			// n = std::max(n, _size * 2);
+			// T* new_arr = _alloc.allocate(new_arr);
+			// for (size_type i = 0; i < size; i++)
+			// 	new_arr[i] = _array[i];
+			// if (_array)
+			// 	_alloc.deallocate(_array, _capacity);
+			// _array = new_arr;
+			// _capacity = n;
 			if (n > _capacity) {
 				pointer tmp = _alloc.allocate(n);
 				for (size_type i = 0; i < _size; ++i)
@@ -126,7 +137,7 @@ class vector {
 
 		void assign (size_type n, const value_type& val) {
 			if (n < 0)
-				throw std::out_of_range("vector assign");
+				throw std::out_of_range("vector");
 			clear();
 			resize(n, val);
 		}
@@ -137,62 +148,44 @@ class vector {
 		}
 
 		void pop_back() { _alloc.destroy(_array + _size); _size--; }
+
 		iterator insert (iterator position, const value_type& val) {
-			size_type idx = position - begin();
-			insert(position, 1, val);
-			return iterator(_array + idx);
+			difference_type idx = position - this->begin();
+			this->insert(position, 1, val);
+			return (iterator(this->begin() + idx));
 		}
 		void insert (iterator position, size_type n, const value_type& val) {
-			size_type idx = position - begin();
-			size_type max = _size + n;
-			if (n >= _capacity) {
-				reserve(_capacity + n);
-				_size = max;
-			}
-			else {
-				while (_size != max) {
-					if (_size == _capacity)
-						reserve(_capacity * 2);
-					_size++;
-				}
-			}
-			for (size_type i = _size; i >= 0; --i) {
-				if (i == idx) {
-					for ( ; n > 0; --n) {
-						_array[i] = val;
-						return;
-					}
-				}
-				_array[i] = _array[i - n];
-			}
+			difference_type const	idx = position - this->begin();
+			difference_type const	old_end_idx = this->end() - this->begin();
+			iterator				old_end;
+			iterator				end;
+
+			this->resize(this->_size + n);
+			end = this->end();
+			position = this->begin() + idx;
+			old_end = this->begin() + old_end_idx;
+			while (old_end != position)
+				*--end = *--old_end;
+			while (n-- > 0)
+				*position++ = val;
 		}
 		template <class InputIterator>
 		void insert (iterator position, InputIterator first,
 			typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type last) {
-			size_type range = ft::distance(first, last);
-			if (!validate_iterator_values(first, last, range))
-				throw std::exception();
-			size_type new_size = _size + range;
-			size_type last_idx = (position - begin()) + range - 1;
-			if (range >= _capacity) {
-				reserve(_capacity + range);
-				_size = new_size;
-			} else {
-				while (_size != new_size) {
-					if (_size == _capacity)
-						reserve(_capacity * 2);
-					_size++;
-				}
-			}
-			for (size_type i = _size - 1; i >= 0; --i) {
-				if (i == last_idx) {
-					for ( ; range > 0; --range, --i) {
-						_array[i] = *--last;
-					}
-					return;
-				}
-				_array[i] = _array[i - range];
-			}
+			difference_type const	idx = position - this->begin();
+			difference_type const	old_end_idx = this->end() - this->begin();
+			iterator				old_end;
+			iterator				end;
+
+			this->resize(this->_size + (ft::distance(first, last)));
+
+			end = this->end();
+			position = this->begin() + idx;
+			old_end = this->begin() + old_end_idx;
+			while (old_end != position)
+				*--end = *--old_end;
+			while (first != last)
+				*position++ = *first++;
 		}
 
 		iterator erase (iterator pos) {
@@ -237,26 +230,6 @@ class vector {
 		size_type	_capacity;
 		size_type	_size;
 		pointer		_array;
-
-		template < class InputIt >
-		typename ft::enable_if<!ft::is_integral<InputIt>::value, bool>::type
-		validate_iterator_values(InputIt first, InputIt last, size_type range) {
-			pointer reserved_buffer;
-			reserved_buffer = _alloc.allocate(range);
-			bool result = true;
-			size_type i = 0;
-
-			for ( ; first != last; ++first, ++i) {
-				try {
-					reserved_buffer[i] = *first;
-				} catch (...) {
-					result = false;
-					break;
-				}
-			}
-			_alloc.deallocate(reserved_buffer, range);
-			return result;
-		}
 	};
 
 	template < class T, class A >
