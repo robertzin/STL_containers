@@ -29,10 +29,10 @@ class vector {
 		iterator end() { return iterator(_array + _size); }
 		const_iterator begin() const { return const_iterator(_array); }
 		const_iterator end() const { return const_iterator(_array + _size); }
-		reverse_iterator rbegin() { return reverse_iterator(end()); }
-		reverse_iterator rend() { return reverse_iterator(begin()); }
-		const_reverse_iterator rbegin() const { return const_reverse_iterator(end()); }
-		const_reverse_iterator rend() const { return const_reverse_iterator(begin()); }
+		reverse_iterator rbegin() { return reverse_iterator(--end()); }
+		reverse_iterator rend() { return reverse_iterator(--begin()); }
+		const_reverse_iterator rbegin() const { return const_reverse_iterator(--end()); }
+		const_reverse_iterator rend() const { return const_reverse_iterator(--begin()); }
 
 		// Constructors:
 		vector(const allocator_type& alloc = allocator_type()) : _alloc(alloc), _capacity(0), _size(0), _array(_alloc.allocate(0)) { }
@@ -169,7 +169,7 @@ class vector {
 		template <class InputIterator>
 		void insert (iterator position, InputIterator first,
 			typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type last) {
-			size_type range = last - first;
+			size_type range = ft::distance(first, last);
 			if (!validate_iterator_values(first, last, range))
 				throw std::exception();
 			size_type new_size = _size + range;

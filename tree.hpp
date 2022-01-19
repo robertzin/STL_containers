@@ -31,7 +31,7 @@ namespace ft {
 			tree() : _root(NULL), _size(0) {}
 			tree(const tree &x) : _root(NULL) { *this = assign(x); }
 			~tree() {}
-			
+
 			tree& assign(tree const& other) {
 				deletetree();
 				_pair_alloc = other._pair_alloc;

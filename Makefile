@@ -2,7 +2,7 @@ NAME		=	containers
 
 C			=	clang++
 
-C_FLAGS		= 	-Wall -Wextra -Werror -std=c++98 -fsanitize=address
+C_FLAGS		= 	-Wall -Wextra -Werror -std=c++98
 
 HEADERS		=	vector.hpp\
 				stack.hpp\
