@@ -731,11 +731,12 @@ int main(void) {
 
 	const int size = 5;
 	std::vector<int> vct(size);
-	std::vector<int>::iterator qit = vct.rbegin();
+	std::vector<int>::iterator qit = vct.begin();
 	std::vector<int>::reverse_iterator it = vct.rbegin();
 	std::vector<int>::reverse_iterator ite = vct.rbegin();
 
-	qit.operator[]
+	// qit.operator[]
+	(void)qit;
 
 	std::cout << *it << "\n";
 
